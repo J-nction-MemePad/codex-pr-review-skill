@@ -20,6 +20,8 @@ Use this skill when one workflow should cover:
 
 2. Load the repo config.
 - Read stacks, deterministic checks, quality gates, reviewer commands, merge rules, and failure policy.
+- The shared runner lives under `scripts/pr-review/`.
+- Pass `--repo-root` when the current working directory is not the target repository.
 
 3. Run `review` as the default command.
 - Build shared deterministic context first.
@@ -44,8 +46,8 @@ Use this skill when one workflow should cover:
 ## Default Command Shape
 
 ```bash
-node scripts/pr-review/orchestrator.js review --pr "$PR_NUMBER" --config config/pr-review/repo-config.json
-node scripts/pr-review/orchestrator.js fix-review-comments --pr "$PR_NUMBER" --config config/pr-review/repo-config.json
+node ~/.codex/skills/pr-review-unified/scripts/pr-review/orchestrator.js review --repo-root "$PWD" --pr "$PR_NUMBER" --config config/pr-review/repo-config.json
+node ~/.codex/skills/pr-review-unified/scripts/pr-review/orchestrator.js fix-review-comments --repo-root "$PWD" --pr "$PR_NUMBER" --config config/pr-review/repo-config.json
 ```
 
 ## References

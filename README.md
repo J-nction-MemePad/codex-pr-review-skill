@@ -1,6 +1,6 @@
 # codex-pr-review-skill
 
-Shared Codex skill packages for PR review workflows.
+Shared Codex skill packages for PR review workflows, including executable review runners.
 
 ## Packages
 
@@ -14,7 +14,7 @@ Use Codex's skill installer:
 python /home/gurujowa/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
   --repo J-nction-MemePad/codex-pr-review-skill \
   --path skills/pr-review-unified \
-  --ref v0.1.0
+  --ref v0.3.0
 ```
 
 After installing, restart Codex.
