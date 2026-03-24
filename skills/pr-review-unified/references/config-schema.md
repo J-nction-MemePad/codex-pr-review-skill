@@ -11,13 +11,16 @@ Common optional keys:
 
 - `language`
 - `botMarker`
+- `remediationMarker`
 - `packageJsonPath`
 - `matchers`
 - `testGroups`
 - `stacks`
+- `reviewerRoles`
 - `reviewers`
 - `mergeRules`
 - `failurePolicy`
+- `fixPolicy`
 - `commentTemplate`
 
 Key ideas:
@@ -26,3 +29,5 @@ Key ideas:
 - repo-specific logic belongs in repo config, not in the shared skill body
 - reviewers are pluggable via config
 - final merge policy is explicit
+- default reviewer set is `rule-reviewer`, `codex-reviewer`, `simplify-reviewer`, `review-judge`
+- remediation is a separate command and is comment-only unless a repo wrapper says otherwise

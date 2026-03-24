@@ -1,6 +1,6 @@
 ---
 name: pr-review-unified
-description: Unified PR review skill that combines deterministic repo checks, stack-aware review, and parallel AI reviewers with final finding arbitration.
+description: Unified PR review skill that combines deterministic repo checks, parallel reviewers, critical arbitration, and remediation planning.
 ---
 
 # Unified PR Review
@@ -8,8 +8,9 @@ description: Unified PR review skill that combines deterministic repo checks, st
 Use this skill when one workflow should cover:
 - deterministic process checks
 - stack-aware review focus
-- parallel Codex / Claude reviewer execution
+- parallel reviewer execution
 - final accepted/rejected finding arbitration
+- remediation planning for accepted findings
 
 ## Workflow
 
@@ -20,19 +21,17 @@ Use this skill when one workflow should cover:
 2. Load the repo config.
 - Read stacks, deterministic checks, quality gates, reviewer commands, merge rules, and failure policy.
 
-3. Run the deterministic rule reviewer first.
-- Produce process checks, test adequacy, quality gates, and rule-based findings.
+3. Run `review` as the default command.
+- Build shared deterministic context first.
+- Run `rule-reviewer`, `codex-reviewer`, and `simplify-reviewer` in parallel.
+- Run `review-judge` after reviewer outputs are normalized.
 
-4. Run external reviewers in parallel.
-- `codex-reviewer`
-- `claude-reviewer`
+4. Use `fix-review-comments` when accepted findings need follow-up.
+- Read the accepted findings from the `review` result.
+- Produce remediation comments or checklists only.
+- Do not auto-edit code unless a repo-specific wrapper explicitly adds that behavior.
 
-5. Normalize and arbitrate.
-- Merge duplicates.
-- Keep accepted findings only when evidence is concrete enough.
-- Reject speculative or duplicate low-signal findings with a reason.
-
-6. Produce one consolidated markdown result.
+5. Produce one consolidated markdown result.
 - Reuse one bot marker.
 - Prefer a single final PR comment instead of per-reviewer comments.
 
@@ -45,7 +44,8 @@ Use this skill when one workflow should cover:
 ## Default Command Shape
 
 ```bash
-node scripts/pr-review/orchestrator.js --pr "$PR_NUMBER" --config config/pr-review/repo-config.json
+node scripts/pr-review/orchestrator.js review --pr "$PR_NUMBER" --config config/pr-review/repo-config.json
+node scripts/pr-review/orchestrator.js fix-review-comments --pr "$PR_NUMBER" --config config/pr-review/repo-config.json
 ```
 
 ## References
